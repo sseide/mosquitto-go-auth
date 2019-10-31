@@ -108,18 +108,22 @@ func AuthPluginInit(keys []string, values []string, authOptsNum int) {
 	authOpts = make(map[string]string)
 	for i := 0; i < authOptsNum; i++ {
 		if keys[i] == "backends" {
+            log.Infof("backend config found: %s = %s", keys[i], values[i])
 			backends = strings.Split(strings.Replace(values[i], " ", "", -1), ",")
 			if len(backends) > 0 {
 				backendsCheck := true
 				for _, backend := range backends {
+                    log.Infof("check backend string: %s", backend)
 					if _, ok := allowedBackends[backend]; !ok {
 						backendsCheck = false
 						log.Errorf("backend not allowed: %s", backend)
 					}
 				}
 				backendsOk = backendsCheck
+                log.Info("backends check finished")
 			}
 		} else {
+            log.Infof("other config found: %s = %s", keys[i], values[i])
 			authOpts[keys[i]] = values[i]
 		}
 	}
