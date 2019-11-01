@@ -104,6 +104,10 @@ func hashWithSalt(password string, salt []byte, iterations int, algorithm string
 		shaHash = sha256.New
 	}
 	hash := pbkdf2.Key([]byte(password), salt, iterations, shaSize, shaHash)
+    log.Debugf("New hash created with size=%s alg=.\n hash", shaSize, shaHash, base64.StdEncoding.EncodeToString(hash))
+
+  	hash2 := pbkdf2.Key([]byte(password), salt, iterations, 24, shaHash)
+    log.Debugf("New hash created with size=24 alg=.\n hash", shaHash, base64.StdEncoding.EncodeToString(hash2))
 
 	// Build up the parameters and hash into a single string so we can compare
 	// other string to the same hash.  Note that the hash algorithm is hard-
