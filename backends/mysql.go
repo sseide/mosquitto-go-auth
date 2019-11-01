@@ -216,9 +216,11 @@ func (o Mysql) GetUser(username, password string) bool {
 	}
 
 	if common.HashCompare(password, pwHash.String) {
+        log.Debugf("MySql user %s successfully authenticated.\n", username)
 		return true
 	}
 
+    log.Debugf("MySql user %s access denied.\n", username)
 	return false
 
 }
@@ -272,10 +274,12 @@ func (o Mysql) CheckAcl(username, topic, clientid string, acc int32) bool {
 		aclTopic := strings.Replace(acl, "%c", clientid, -1)
 		aclTopic = strings.Replace(aclTopic, "%u", username, -1)
 		if common.TopicsMatch(aclTopic, topic) {
+            log.Debugf("MySql user %s acl allowed for %s.\n", username, topic)
 			return true
 		}
 	}
 
+    log.Debugf("MySql user %s acl denied for %s.\n", username, topic)
 	return false
 
 }

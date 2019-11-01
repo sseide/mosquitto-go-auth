@@ -134,6 +134,8 @@ func HashCompare(password string, passwordHash string) bool {
 	iterations, _ := strconv.Atoi(hashSplit[2])
 	salt, _ := base64.StdEncoding.DecodeString(hashSplit[3])
 	algorithm := hashSplit[1]
+    log.Debugf("Hashcompare create new hash with it=%s salt=%s alg=.\n", iterations, salt, algorithm)
 	newHash := hashWithSalt(password, salt, iterations, algorithm)
+    log.Debugf("Hashcompare user=%s local=%s.\n", passwordHash, newHash)
 	return newHash == passwordHash
 }
